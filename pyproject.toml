@@ -11,6 +11,7 @@ cryptg = "^0.2.post4"
 Pillow = "^8.2.0"
 python-dotenv = "^0.17.1"
 rich = "^10.3.0"
+pydantic = "^1.8.2"
 
 [tool.poetry.dev-dependencies]
 black = "^21.6b0"

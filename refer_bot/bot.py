@@ -20,10 +20,17 @@ logging.basicConfig(
 
 async def start_bot():
     from refer_bot import conf
-    from refer_bot.utils import handler_functions
+    from refer_bot.utils import get_id, handler_functions
 
     client = TelegramClient("bot", conf.API_ID, conf.API_HASH)
     await client.start(bot_token=conf.BOT_TOKEN)
+    me = await client.get_me()
+    conf.BOT_USERNAME = me.username
+    logging.info(f"Logged in sucessfully as {conf.BOT_USERNAME}")
+
+    conf.ADMINS = [await get_id(client, admin) for admin in conf.BOT_ADMINS.split(",")]
+    logging.info(f"Usernames of bot admins {conf.BOT_ADMINS}")
+    logging.info(f"Ids of admins {conf.ADMINS}")
 
     for handler in handler_functions():
         logging.info(f"Added event handler {handler.__name__}")

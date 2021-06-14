@@ -1,6 +1,6 @@
 from inspect import getmembers, isfunction, ismodule
 
-from telethon import events
+from telethon import TelegramClient, events
 
 from refer_bot import handlers
 
@@ -27,3 +27,12 @@ def handler_functions():
         for function in get_functions(module):
             if events.is_handler(function):
                 yield function
+
+
+async def get_id(client: TelegramClient, peer):
+    return await client.get_peer_id(peer)
+
+
+async def get_username(client: TelegramClient, user_id: int):
+    entity = await client.get_entity(user_id)
+    return entity.username
