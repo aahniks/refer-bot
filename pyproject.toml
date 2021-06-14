@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "telethon_bot"
+version = "0.1.0"
+description = ""
+authors = ["aahnik <daw@aahnik.dev>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Telethon = "^1.21.1"
+cryptg = "^0.2.post4"
+Pillow = "^8.2.0"
+python-dotenv = "^0.17.1"
+rich = "^10.3.0"
+
+[tool.poetry.dev-dependencies]
+black = "^21.6b0"
+isort = "^5.8.0"
+ipykernel = "^5.5.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+telethon-bot = 'telethon_bot.bot:main'
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
