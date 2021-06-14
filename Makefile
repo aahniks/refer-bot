@@ -9,7 +9,7 @@ list:
 no_targets__:
 
 VERSION=$$(poetry version -s)
-PROJECT="telethon-bot"
+PROJECT="refer-bot"
 
 clean:
 	@rm -rf build dist .eggs *.egg-info

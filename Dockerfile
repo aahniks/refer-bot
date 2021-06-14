@@ -11,4 +11,4 @@ COPY . .
 RUN poetry build && \
     /venv/bin/pip install --upgrade pip wheel setuptools &&\
     /venv/bin/pip install dist/*.whl
-CMD telethon-bot
+CMD refer-bot

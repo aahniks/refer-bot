@@ -19,8 +19,8 @@ logging.basicConfig(
 
 
 async def start_bot():
-    from telethon_bot import conf
-    from telethon_bot.utils import handler_functions
+    from refer_bot import conf
+    from refer_bot.utils import handler_functions
 
     client = TelegramClient("bot", conf.API_ID, conf.API_HASH)
     await client.start(bot_token=conf.BOT_TOKEN)

@@ -2,7 +2,7 @@ from inspect import getmembers, isfunction, ismodule
 
 from telethon import events
 
-from telethon_bot import handlers
+from refer_bot import handlers
 
 
 def get_functions(module):

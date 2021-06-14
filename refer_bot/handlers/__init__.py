@@ -1,4 +1,4 @@
-from telethon_bot.handlers import basics
+from refer_bot.handlers import basics
 
 # in this file import all the sub-modules that contain the handlers
 # the modules here will be visible to getmembers() of this handlers package

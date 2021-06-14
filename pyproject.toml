@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "telethon_bot"
+name = "refer_bot"
 version = "0.1.0"
 description = ""
 authors = ["aahnik <daw@aahnik.dev>"]
@@ -22,7 +22,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-telethon-bot = 'telethon_bot.bot:main'
+refer-bot = 'refer_bot.bot:main'
 
 [tool.isort]
 profile = "black"

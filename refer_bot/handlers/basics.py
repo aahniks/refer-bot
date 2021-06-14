@@ -2,7 +2,7 @@ import logging
 
 from telethon import events
 
-from telethon_bot.types import EventLike
+from refer_bot.types import EventLike
 
 
 @events.register(events.NewMessage(pattern="/start"))
