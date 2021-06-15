@@ -2,9 +2,9 @@ import logging
 
 from telethon import events
 
+from refer_bot import storage as st
 from refer_bot.handlers._utils import join_protect
 from refer_bot.types import EventLike
-from refer_bot import storage as st
 
 
 @events.register(events.NewMessage(pattern="/help"))

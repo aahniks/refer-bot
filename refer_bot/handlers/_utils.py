@@ -5,8 +5,8 @@ from telethon import TelegramClient, events, functions
 from telethon.errors import UserNotParticipantError
 
 from refer_bot import conf
-from refer_bot.types import EventLike
 from refer_bot import storage as st
+from refer_bot.types import EventLike
 
 
 def admin_protect(org_func):
@@ -71,7 +71,7 @@ def join_protect(org_func):
                 if referer_id:
                     referer = st.fetch(referer_id)
                     referer.coins -= 1
-                    st.update(referer_id,referer)
+                    st.update(referer_id, referer)
             this_user.joined = False
             st.update(event.sender_id, this_user)
             raise events.StopPropagation
