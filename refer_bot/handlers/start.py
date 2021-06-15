@@ -15,7 +15,7 @@ async def start_handler(event: EventLike):
     if args:
         logging.info(f"this user has been refered by {args}")
         client: TelegramClient = event.client
-        referer_id = await client.get_peer_id(args)
+        referer_id = await client.get_peer_id(int(args))
         logging.info(f"referer id {referer_id}")
         referer = st.fetch(referer_id)
         referer.referals.append(event.sender_id)

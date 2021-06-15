@@ -15,9 +15,7 @@ COMMANDS = {
     "start": "Check if I am alive",
     "help": "Learn usage of the bot",
     "refresh": "Refresh after joining all the channels",
-    "upi": "Set your UPI ID where you want to recieve Rupees",
-    "coins": "See the no of coins you have in your wallet",
-    "referals": "See who have joined using your link",
+    "stats": "See your profile information",
 }
 
 ADMINS = []  # user id of admins

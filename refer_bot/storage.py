@@ -32,6 +32,7 @@ def update(_id: int, data: UserData):
     check_integrity(_id, data)
     assert _id in stored.keys()
     stored[_id] = data.dict()
+    dump()
     # add a new record or update a record in the data
 
 
@@ -52,3 +53,16 @@ def dump():
 def get_mbs(obj):
     # return amount of MBs a python object consumes
     return sys.getsizeof(obj) * 0.000001
+
+
+def load():
+    try:
+        with open("data/data.json") as file:
+            return json.load(file)
+    except:
+        return {}
+
+
+stored = load()
+
+print(stored)

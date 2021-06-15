@@ -4,24 +4,26 @@ from telethon import events
 
 from refer_bot.handlers._utils import join_protect
 from refer_bot.types import EventLike
+from refer_bot import storage as st
 
 
 @events.register(events.NewMessage(pattern="/help"))
 @join_protect
 async def help_handler(event: EventLike):
-    await event.respond("This is help!")
+    await event.respond("This is help! For support contact @help621")
     raise events.StopPropagation
 
 
-@events.register(events.NewMessage(pattern="/upi"))
+@events.register(events.NewMessage(pattern="/stats"))
 @join_protect
-async def upi_handler(event: EventLike):
-    await event.respond("This is upi!")
-    raise events.StopPropagation
+async def stats_handler(event: EventLike):
+    this_user = st.fetch(event.sender_id)
 
-
-@events.register(events.NewMessage(pattern="/coins"))
-@join_protect
-async def coins_handler(event: EventLike):
-    await event.respond("This is coins!")
+    await event.respond(
+        f"Your profile stats\
+        \nID: {this_user.user_id}\
+        \nJoined All channels: {this_user.joined}\
+        \nCoins in your wallet: {this_user.coins}\
+        \nNo. of sucessful referals you made: {len(this_user.referals)}"
+    )
     raise events.StopPropagation
