@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+from odmantic.engine import AIOEngine
 from rich import traceback
 from rich.logging import RichHandler
 from telethon import TelegramClient, functions, types
@@ -20,6 +21,7 @@ logging.basicConfig(
 
 async def start_bot():
     from refer_bot import conf
+    from refer_bot import storage as st
     from refer_bot.utils import get_id, handler_functions
 
     client = TelegramClient("bot", conf.API_ID, conf.API_HASH)
@@ -27,6 +29,10 @@ async def start_bot():
     me = await client.get_me()
     conf.BOT_USERNAME = me.username
     logging.info(f"Logged in sucessfully as {conf.BOT_USERNAME}")
+
+    engine = AIOEngine()
+    logging.info("Created AsyncIO Engine for MongoDB")
+    st.engine = engine
 
     conf.ADMINS = [await get_id(client, admin) for admin in conf.BOT_ADMINS.split(",")]
     logging.info(f"Usernames of bot admins {conf.BOT_ADMINS}")

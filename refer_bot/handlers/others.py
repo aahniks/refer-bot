@@ -17,13 +17,13 @@ async def help_handler(event: EventLike):
 @events.register(events.NewMessage(pattern="/stats"))
 @join_protect
 async def stats_handler(event: EventLike):
-    this_user = st.fetch(event.sender_id)
+    user = await st.engine.find_one(st.Person, st.Person.uid == event.sender_id)
 
     await event.respond(
         f"Your profile stats\
-        \nID: {this_user.user_id}\
-        \nJoined All channels: {this_user.joined}\
-        \nCoins in your wallet: {this_user.coins}\
-        \nNo. of sucessful referals you made: {len(this_user.referals)}"
+        \nID: {user.uid}\
+        \nJoined All channels: {user.joined}\
+        \nCoins in your wallet: {user.coins}\
+        \nNo. of sucessful referals you made: {len(user.referals)}"
     )
     raise events.StopPropagation
