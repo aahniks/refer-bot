@@ -4,7 +4,7 @@ from telethon import TelegramClient, events
 
 from refer_bot import conf
 from refer_bot import storage as st
-from refer_bot.handlers._utils import get_args
+from refer_bot.handlers._utils import get_args, show_channels
 from refer_bot.types import EventLike
 
 
@@ -16,23 +16,27 @@ async def start_handler(event: EventLike):
         logging.info(f"this user has been refered by {args}")
         client: TelegramClient = event.client
         referer_id = await client.get_peer_id(int(args))
+        if referer_id == event.sender_id:
+            logging.info("You cant use your own link")
+            await event.respond(
+                "Why are you clicking on your own link ? Share it to friends."
+            )
+            raise events.StopPropagation
         logging.info(f"referer id {referer_id}")
-        referer = st.fetch(referer_id)
+        referer = await st.engine.find_one(st.Person, st.Person.uid == referer_id)
         referer.referals.append(event.sender_id)
-        st.update(referer_id, referer)
+        await st.engine.save(referer)
     else:
         referer_id = None
 
-    this_user = st.UserData(user_id=event.sender_id, referer=referer_id)
-    if this_user.user_id in st.stored:
+    this_user = st.Person(uid=event.sender_id, referer=referer_id)
+    fetched_user = await st.engine.find_one(st.Person, st.Person.uid == event.sender_id)
+    if fetched_user:
+        await event.respond("I am alive! You have already started the bot!")
         logging.info("This user is already stored, and data cant be changed.")
     else:
-        st.insert(event.sender_id, this_user)
-        st.dump()
-    await event.respond(
-        f"Hello \
-        \nYou must join these channels to continue. \
-            \n{[c for c in conf.CHANNELS]}\
-        \nOnce done, send me /refresh"
-    )
+        await event.respond("Hello Welcome to refer and earn!")
+        await st.engine.save(this_user)
+
+    await show_channels(event)
     raise events.StopPropagation

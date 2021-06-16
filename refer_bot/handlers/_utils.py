@@ -54,36 +54,41 @@ def join_protect(org_func):
         """Wrap the original function."""
         logging.info(f"Recieved {event.text} from {event.sender_id}")
         logging.info(f"Applying join protection!")
-        logging.info(st.stored)
-        this_user = st.fetch(event.sender_id)
 
+        this_user: st.Person = await st.engine.find_one(
+            st.Person, st.Person.uid == event.sender_id
+        )
+        logging.info(this_user)
         if not this_user:
             await event.respond("Internal Error! Please hit /start")
             raise events.StopPropagation
+        referer_id = this_user.referer
         if not await check_joined(event.client, event.sender_id):
-            await event.respond(
-                f"You need to first join the channels \
-                \n {[c for c in conf.CHANNELS]} before you can do anything else."
-            )
+            await show_channels(event)
+
             if this_user.joined is True:
                 this_user.coins -= 1
-                referer_id = this_user.referer
+
                 if referer_id:
-                    referer = st.fetch(referer_id)
+                    referer = await st.engine.find_one(
+                        st.Person, st.Person.uid == referer_id
+                    )
                     referer.coins -= 1
-                    st.update(referer_id, referer)
-            this_user.joined = False
-            st.update(event.sender_id, this_user)
+                    await st.engine.save(referer)
+                await st.engine.save(this_user)
             raise events.StopPropagation
+
         if this_user.joined is False:
             this_user.coins += 1
-            referer_id = this_user.referer
+
             if referer_id:
-                referer = st.fetch(referer_id)
+                referer = await st.engine.find_one(
+                    st.Person, st.Person.uid == referer_id
+                )
                 referer.coins += 1
-                st.update(referer_id, referer)
+                await st.engine.save(referer)
             this_user.joined = True
-            st.update(event.sender_id, this_user)
+            await st.engine.save(this_user)
 
         return await org_func(event)
 
