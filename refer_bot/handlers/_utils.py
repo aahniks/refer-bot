@@ -1,7 +1,7 @@
 import functools
 import logging
 
-from telethon import TelegramClient, events, functions
+from telethon import Button, TelegramClient, events, functions
 from telethon.errors import UserNotParticipantError
 
 from refer_bot import conf, messages
@@ -99,3 +99,14 @@ async def show_channels(event: EventLike):
     await event.respond(
         messages.join_channels_text.format(channels=[c for c in conf.CHANNELS])
     )
+
+
+def build_keyboard(matrix: List[List[str]]):
+    bm = []
+    for row in matrix:
+        this_col = []
+        for col in row:
+            this_col.append(Button.text(col))
+        bm.append(this_col)
+
+    return bm
