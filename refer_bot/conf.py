@@ -10,12 +10,11 @@ API_ID = os.getenv("TG_API_ID")
 API_HASH = os.getenv("TG_API_HASH")
 BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 BOT_ADMINS = os.getenv("TG_BOT_ADMINS")  # comma seperated usernames of admins
+CONTACT_ADMIN = os.getenv("TG_BOT_CONTACT_ADMIN")
 
 COMMANDS = {
-    "start": "Start the bot",
-    "help": "Learn usage of the bot",
-    "refresh": "Refresh after joining all the channels",
-    "stats": "See your profile information",
+    "start": "start the bot",
+    "help": "get help",
 }
 
 ADMINS = []  # user id of admins
