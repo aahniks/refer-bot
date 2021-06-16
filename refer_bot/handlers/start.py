@@ -2,7 +2,7 @@ import logging
 
 from telethon import TelegramClient, events
 
-from refer_bot import conf
+from refer_bot import messages
 from refer_bot import storage as st
 from refer_bot.handlers._utils import get_args, show_channels
 from refer_bot.types import EventLike
@@ -17,10 +17,8 @@ async def start_handler(event: EventLike):
         client: TelegramClient = event.client
         referer_id = await client.get_peer_id(int(args))
         if referer_id == event.sender_id:
-            logging.info("You cant use your own link")
-            await event.respond(
-                "Why are you clicking on your own link ? Share it to friends."
-            )
+            logging.info("User used own link")
+            await event.respond(messages.started_with_own_link)
             raise events.StopPropagation
         logging.info(f"referer id {referer_id}")
         referer = await st.engine.find_one(st.Person, st.Person.uid == referer_id)
@@ -32,10 +30,10 @@ async def start_handler(event: EventLike):
     this_user = st.Person(uid=event.sender_id, referer=referer_id)
     fetched_user = await st.engine.find_one(st.Person, st.Person.uid == event.sender_id)
     if fetched_user:
-        await event.respond("I am alive! You have already started the bot!")
+        await event.respond(messages.existing_user_start)
         logging.info("This user is already stored, and data cant be changed.")
     else:
-        await event.respond("Hello Welcome to refer and earn!")
+        await event.respond(messages.new_user_start)
         await st.engine.save(this_user)
 
     await show_channels(event)

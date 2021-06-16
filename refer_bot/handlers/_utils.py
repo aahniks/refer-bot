@@ -4,7 +4,7 @@ import logging
 from telethon import TelegramClient, events, functions
 from telethon.errors import UserNotParticipantError
 
-from refer_bot import conf
+from refer_bot import conf, messages
 from refer_bot import storage as st
 from refer_bot.types import EventLike
 
@@ -17,7 +17,7 @@ def admin_protect(org_func):
         """Wrap the original function."""
         logging.info(f"Applying admin protection! Admins are {conf.ADMINS}")
         if event.sender_id not in conf.ADMINS:
-            await event.respond("You are not authorized.")
+            await event.respond(messages.user_not_authorized)
             raise events.StopPropagation
         return await org_func(event)
 
@@ -60,7 +60,7 @@ def join_protect(org_func):
         )
         logging.info(this_user)
         if not this_user:
-            await event.respond("Internal Error! Please hit /start")
+            await event.respond(messages.user_not_found)
             raise events.StopPropagation
         referer_id = this_user.referer
         if not await check_joined(event.client, event.sender_id):
@@ -97,6 +97,5 @@ def join_protect(org_func):
 
 async def show_channels(event: EventLike):
     await event.respond(
-        f"You need to first join the channels \
-                \n {[c for c in conf.CHANNELS]} before you can do anything else."
+        messages.join_channels_text.format(channels=[c for c in conf.CHANNELS])
     )
