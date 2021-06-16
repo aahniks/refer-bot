@@ -1,68 +1,15 @@
-import json
-import sys
-from typing import Any, Dict, List, Optional, Union
+from typing import List, Optional
 
-from pydantic import BaseModel
+from odmantic import AIOEngine, Field, Model
+from pydantic import StrictBool
 
-stored: Dict[int, Dict[str, Any]] = {}
-# key is user id and value is data dict
+engine: AIOEngine = None
 
 
-class UserData(BaseModel):
-    user_id: int  # user id
-    joined: bool = False  # whether the user has joined all channels
-    coins: int = 0  # no of coins this user currently has
+class Person(Model):
+    uid: int = Field(primary_field=True)
     referer: Optional[int] = None
-    referals: List[int] = []  # list of users this user has referred
-
-
-def check_integrity(_id: int, data: UserData):
-    assert _id == data.user_id
-    if not isinstance(data, UserData):
-        raise ValueError("Data is not of type UserData")
-
-
-def insert(_id: int, data: UserData):
-    check_integrity(_id, data)
-    assert _id not in stored.keys()
-    stored[_id] = data.dict()
-
-
-def update(_id: int, data: UserData):
-    check_integrity(_id, data)
-    assert _id in stored.keys()
-    stored[_id] = data.dict()
-    dump()
-    # add a new record or update a record in the data
-
-
-def fetch(_id: int) -> Union[UserData, None]:
-    data_dict = stored.get(_id)
-    if data_dict:
-        return UserData(**data_dict)
-    return None
-
-    # fetch the data of a particular user
-
-
-def dump():
-    with open("data/data.json", "w") as file:
-        json.dump(stored, file)
-
-
-def get_mbs(obj):
-    # return amount of MBs a python object consumes
-    return sys.getsizeof(obj) * 0.000001
-
-
-def load():
-    try:
-        with open("data/data.json") as file:
-            return json.load(file)
-    except:
-        return {}
-
-
-stored = load()
-
-print(stored)
+    joined: StrictBool = False
+    referals: Optional[List[int]] = []
+    coins: int = 0
+    wallet: str = ""
