@@ -96,8 +96,14 @@ def join_protect(org_func):
 
 
 async def show_channels(event: EventLike):
+    channels = ""
+    for c in conf.CHANNELS:
+        channels += f"➟ {c}\n"
     await event.respond(
-        messages.join_channels_text.format(channels=[c for c in conf.CHANNELS])
+        messages.join_channels_text.format(channels=channels),
+        buttons=[
+            [Button.inline(messages.refresh_btn, data=b"refresh")],
+        ],
     )
 
 
