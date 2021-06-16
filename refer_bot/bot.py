@@ -39,8 +39,8 @@ async def start_bot():
     logging.info(f"Ids of admins {conf.ADMINS}")
 
     for handler in handler_functions():
-        logging.info(f"Added event handler {handler.__name__}")
         client.add_event_handler(handler)
+        logging.info(f"Added event handler {handler.__name__}")
 
     await client(
         functions.bots.SetBotCommandsRequest(

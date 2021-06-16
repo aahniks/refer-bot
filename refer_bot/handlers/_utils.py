@@ -1,7 +1,8 @@
 import functools
 import logging
+from typing import List
 
-from telethon import TelegramClient, events, functions
+from telethon import Button, TelegramClient, events, functions
 from telethon.errors import UserNotParticipantError
 
 from refer_bot import conf, messages
@@ -52,23 +53,37 @@ def join_protect(org_func):
     @functools.wraps(org_func)
     async def wrapper_func(event: EventLike):
         """Wrap the original function."""
-        logging.info(f"Recieved {event.text} from {event.sender_id}")
+
+        # logging.info(f"Recieved update {event}")
+
+        event_type = type(event)
+
+        if event_type == events.NewMessage.Event:
+            logging.info(f"New message [dim]{event.text}[/dim] from {event.sender_id}")
+        elif event_type == events.CallbackQuery.Event:
+            logging.info(
+                f"Callback Query [dim]{event.data}[/dim] from {event.sender_id}"
+            )
+        else:
+            logging.info(f"Unknown event{event_type}")
+
         logging.info(f"Applying join protection!")
 
         this_user: st.Person = await st.engine.find_one(
             st.Person, st.Person.uid == event.sender_id
         )
+
         logging.info(this_user)
+
         if not this_user:
             await event.respond(messages.user_not_found)
             raise events.StopPropagation
+
         referer_id = this_user.referer
         if not await check_joined(event.client, event.sender_id):
-            await show_channels(event)
-
             if this_user.joined is True:
                 this_user.coins -= 1
-
+                this_user.joined = False
                 if referer_id:
                     referer = await st.engine.find_one(
                         st.Person, st.Person.uid == referer_id
@@ -76,6 +91,7 @@ def join_protect(org_func):
                     referer.coins -= 1
                     await st.engine.save(referer)
                 await st.engine.save(this_user)
+            await show_channels(event)
             raise events.StopPropagation
 
         if this_user.joined is False:
@@ -90,12 +106,29 @@ def join_protect(org_func):
             this_user.joined = True
             await st.engine.save(this_user)
 
-        return await org_func(event)
+        return await org_func(event, this_user)
 
     return wrapper_func
 
 
 async def show_channels(event: EventLike):
+    channels = ""
+    for c in conf.CHANNELS:
+        channels += f"➟ {c}\n"
     await event.respond(
-        messages.join_channels_text.format(channels=[c for c in conf.CHANNELS])
+        messages.join_channels_text.format(channels=channels),
+        buttons=[
+            [Button.inline(messages.refresh_btn, data=b"refresh")],
+        ],
     )
+
+
+def build_keyboard(matrix: List[List[str]]):
+    bm = []
+    for row in matrix:
+        this_col = []
+        for col in row:
+            this_col.append(Button.text(col))
+        bm.append(this_col)
+
+    return bm
