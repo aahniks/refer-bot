@@ -12,7 +12,7 @@ BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 BOT_ADMINS = os.getenv("TG_BOT_ADMINS")  # comma seperated usernames of admins
 
 COMMANDS = {
-    "start": "Check if I am alive",
+    "start": "Start the bot",
     "help": "Learn usage of the bot",
     "refresh": "Refresh after joining all the channels",
     "stats": "See your profile information",
