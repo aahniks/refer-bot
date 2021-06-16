@@ -88,3 +88,10 @@ def join_protect(org_func):
         return await org_func(event)
 
     return wrapper_func
+
+
+async def show_channels(event: EventLike):
+    await event.respond(
+        f"You need to first join the channels \
+                \n {[c for c in conf.CHANNELS]} before you can do anything else."
+    )
