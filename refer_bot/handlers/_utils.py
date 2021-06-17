@@ -120,6 +120,7 @@ async def show_channels(event: EventLike):
         buttons=[
             [Button.inline(messages.refresh_btn, data=b"refresh")],
         ],
+        link_preview=False,
     )
 
 
