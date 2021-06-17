@@ -58,7 +58,7 @@ async def wallet_button_click_handler(event: events.CallbackQuery.Event, user):
     await event.answer("Click on wallet button recieved")
 
     if not user.wallet:
-        await event.delete()
+        await event.edit("This feature is coming soon!")
         # conversation to get wallet info
     else:
         await event.edit("Your wallet is already set.")

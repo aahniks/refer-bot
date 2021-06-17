@@ -69,7 +69,7 @@ You need to have minimum {min_limit} coins to withdraw cash.
 """
 
 refresh_btn = "↺ Refresh"
-profile_btn = "👨 Profile"
+profile_btn = "🎨 Profile"
 my_referals_btn = "💡 My Referals"
 get_link_btn = "🔗 Get Referal Link"
 get_cash_btn = "💵 Get cash"

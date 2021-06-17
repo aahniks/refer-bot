@@ -11,6 +11,8 @@ API_HASH = os.getenv("TG_API_HASH")
 BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 BOT_ADMINS = os.getenv("TG_BOT_ADMINS")  # comma seperated usernames of admins
 CONTACT_ADMIN = os.getenv("TG_BOT_CONTACT_ADMIN")
+MONGO_DB_CON_STR = os.getenv("MONGO_DB_CON_STR", "mongodb://localhost:27017/")
+MONGO_DB_DATABASE = os.getenv("MONGO_DB_DATABASE", "test")
 
 COMMANDS = {
     "start": "start the bot",
@@ -31,9 +33,11 @@ def checks():
         logging.warning("Please set your [r]TG_API_HASH[/r] env var")
     if not BOT_TOKEN:
         logging.warning("Please set your [r]TG_BOT_TOKEN[/r] env var")
+    if not MONGO_DB_CON_STR:
+        logging.warning("Please set your [r]MONGO_DB_CON_STR[/r] env var")
 
     try:
-        assert API_HASH and API_ID and BOT_TOKEN
+        assert API_HASH and API_ID and BOT_TOKEN and MONGO_DB_CON_STR
     except AssertionError:
         logging.critical(
             "Make sure to set your environment variables!\nIf you running this on your own computer or a VPS, you can write them in a [dim].env[/dim] file in the following format\

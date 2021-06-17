@@ -106,6 +106,21 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "dnspython"
+version = "2.1.0"
+description = "DNS toolkit"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+dnssec = ["cryptography (>=2.6)"]
+doh = ["requests", "requests-toolbelt"]
+idna = ["idna (>=2.1)"]
+curio = ["curio (>=1.2)", "sniffio (>=1.1)"]
+trio = ["trio (>=0.14.0)", "sniffio (>=1.1)"]
+
+[[package]]
 name = "ipykernel"
 version = "5.5.5"
 description = "IPython Kernel for Jupyter"
@@ -564,7 +579,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ca69040254febac01aea804b4d4c082afad8bfc00b1f4c3e05f66bb70ca39bb2"
+content-hash = "dbb8c9508e39dacea8b72049d15908731516299029b977811ad0c16097332f90"
 
 [metadata.files]
 appdirs = [
@@ -685,6 +700,10 @@ cryptg = [
 decorator = [
     {file = "decorator-5.0.9-py3-none-any.whl", hash = "sha256:6e5c199c16f7a9f0e3a61a4a54b3d27e7dad0dbdde92b944426cb20914376323"},
     {file = "decorator-5.0.9.tar.gz", hash = "sha256:72ecfba4320a893c53f9706bebb2d55c270c1e51a28789361aa93e4a21319ed5"},
+]
+dnspython = [
+    {file = "dnspython-2.1.0-py3-none-any.whl", hash = "sha256:95d12f6ef0317118d2a1a6fc49aac65ffec7eb8087474158f42f26a639135216"},
+    {file = "dnspython-2.1.0.zip", hash = "sha256:e4a87f0b573201a0f3727fa18a516b055fd1107e0e5477cded4a2de497df1dd4"},
 ]
 ipykernel = [
     {file = "ipykernel-5.5.5-py3-none-any.whl", hash = "sha256:29eee66548ee7c2edb7941de60c0ccf0a7a8dd957341db0a49c5e8e6a0fcb712"},
