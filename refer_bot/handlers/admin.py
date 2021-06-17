@@ -31,7 +31,8 @@ async def manage_btn_handler(event: EventLike):
 @events.register(events.NewMessage(pattern=stats_btn))
 @admin_protect
 async def stats_btn_handler(event: EventLike):
-    await event.respond()
+    # await event.respond()
+    pass
 
 
 @events.register(events.NewMessage(pattern=contact_dev_btn))

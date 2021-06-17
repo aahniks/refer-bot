@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+from motor.motor_asyncio import AsyncIOMotorClient
 from odmantic.engine import AIOEngine
 from rich import traceback
 from rich.logging import RichHandler
@@ -30,7 +31,8 @@ async def start_bot():
     conf.BOT_USERNAME = me.username
     logging.info(f"Logged in sucessfully as {conf.BOT_USERNAME}")
 
-    engine = AIOEngine()
+    motor_client = AsyncIOMotorClient(conf.MONGO_DB_CON_STR)
+    engine = AIOEngine(motor_client=motor_client, database=conf.MONGO_DB_DATABASE)
     logging.info("Created AsyncIO Engine for MongoDB")
     st.engine = engine
 
