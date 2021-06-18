@@ -5,6 +5,7 @@ from telethon import TelegramClient, events
 from refer_bot import messages
 from refer_bot import storage as st
 from refer_bot.handlers._utils import build_keyboard, get_args
+from refer_bot.handlers.const import main_kbd
 from refer_bot.types import EventLike
 
 
@@ -38,6 +39,6 @@ async def start_handler(event: EventLike):
 
     await event.respond(
         "Click on any keyboard button to proceed!",
-        buttons=build_keyboard(messages.user_kbd),
+        buttons=main_kbd,
     )
     raise events.StopPropagation
