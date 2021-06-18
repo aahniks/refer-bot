@@ -14,3 +14,5 @@ class Person(Model):
     coins: int = 0
     wallet: str = ""
     phone: Optional[int] = None
+    banned: StrictBool = False
+    
