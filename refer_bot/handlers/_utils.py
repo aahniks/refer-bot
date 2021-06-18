@@ -124,12 +124,12 @@ async def show_channels(event: EventLike):
     )
 
 
-def build_keyboard(matrix: List[List[str]]):
+def build_keyboard(matrix: List[List[str]], resize=True, single_use=False):
     bm = []
     for row in matrix:
         this_col = []
         for col in row:
-            this_col.append(Button.text(col))
+            this_col.append(Button.text(col, resize=resize, single_use=single_use))
         bm.append(this_col)
 
     return bm
