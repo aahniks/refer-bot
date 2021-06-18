@@ -39,7 +39,7 @@ async def profile_handler(event: EventLike, user):
         wallet_btn = None
 
     await event.respond(
-        messages.stats_text.format(
+        messages.user_profile.format(
             uid=user.uid,
             joined=user.joined,
             coins=user.coins,
