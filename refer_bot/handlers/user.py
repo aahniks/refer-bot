@@ -14,7 +14,7 @@ from refer_bot.types import EventLike
 @events.register(events.NewMessage(pattern="/help"))
 @join_protect
 async def help_handler(event: EventLike, user):
-    await event.respond(messages.help_text)
+    await event.respond(messages.help_text.format(admin=conf.CONTACT_ADMIN))
     raise events.StopPropagation
 
 
@@ -55,15 +55,21 @@ async def profile_handler(event: EventLike, user):
 
 @events.register(events.CallbackQuery(data="wallet"))
 @join_protect
-async def wallet_button_click_handler(event: events.CallbackQuery.Event, user):
+async def wallet_button_click_handler(
+    event: events.CallbackQuery.Event, user: st.Person
+):
     logging.info("User clicked wallet button")
 
     await event.answer("Click on wallet button recieved")
 
     if user.wallet:
         await event.edit("Your wallet is already set.")
+        raise events.StopPropagation
+
     await event.edit("You must be INDIAN to get cash!")
+
     client: TelegramClient = event.client
+
     async with client.conversation(event.sender_id) as conv:
         message = await conv.send_message(
             "Please Choose your wallet",
@@ -71,57 +77,72 @@ async def wallet_button_click_handler(event: events.CallbackQuery.Event, user):
         )
         wallet_reply = await conv.get_response(message)
         wallet = wallet_reply.text
-        if wallet in messages.wallet_options:
-            diff_no = "Send a different number"
-            only_ind = "Only Indian Numbers allowed"
-            ask_phone = await conv.send_message(
-                f"Send your 10 digit {wallet} number",
-                buttons=[
-                    [
-                        Button.request_phone(
-                            f"Send my Telegram number", resize=True, single_use=True
-                        )
-                    ],
-                    [Button.text(diff_no)],
-                ],
+        if not (wallet in messages.wallet_options):
+            await conv.send_message(
+                messages.wallet_set_failed.format(reason="Invalid Wallet type"),
+                buttons=main_kbd,
             )
-            phn_reply = await conv.get_response(ask_phone)
+            raise events.StopPropagation
 
-            if phn_reply.contact:
-                phone: str = phn_reply.contact.phone_number
-                if not phone.startswith("91"):
-                    await conv.send_message(
-                        messages.wallet_set_failed.format(reason=only_ind),
-                        buttons=main_kbd,
+        diff_no = "Send a different number"
+        only_ind = "Only Indian Numbers allowed"
+        ask_phone = await conv.send_message(
+            f"Send your {wallet} number",
+            buttons=[
+                [
+                    Button.request_phone(
+                        f"Send my Telegram number", resize=True, single_use=True
                     )
-                phone = int(phone[2:])
-            elif phn_reply.text == diff_no:
+                ],
+                [Button.text(diff_no)],
+            ],
+        )
+        phn_reply = await conv.get_response(ask_phone)
 
-                ask_phn_manual = await conv.send_message(
-                    f"Type and send your {wallet} number.\n\
-                    \n(Must be 10 Digit Indian Phone number)",
-                    buttons=Button.clear(),
+        if phn_reply.contact:
+            phone: str = phn_reply.contact.phone_number
+            if not phone.startswith("91"):
+                await conv.send_message(
+                    messages.wallet_set_failed.format(reason=only_ind),
+                    buttons=main_kbd,
                 )
-                reply_phn = await conv.get_response(ask_phn_manual)
-                phone: str = reply_phn.text
+            phone = int(phone[2:])
+        elif phn_reply.text == diff_no:
 
-                try:
-                    if phone.startswith("91") and len(phone) == 12:
-                        phone = int(phone[2:])
-                    elif len(phone) == 10:
-                        phone = int(phone)
-                    else:
-                        raise ValueError
-                except:
-                    await conv.send_message(
-                        messages.wallet_set_failed.format(
-                            reason=f"Invalid phone number format. Give 10 digit number. {only_ind}"
-                        ),
-                        buttons=main_kbd,
-                    )
-                    conv.cancel()
+            ask_phn_manual = await conv.send_message(
+                f"Type and send your {wallet} number.\n\
+                \n(Must be 10 Digit Indian Phone number)",
+                buttons=Button.clear(),
+            )
+            reply_phn = await conv.get_response(ask_phn_manual)
+            phone: str = reply_phn.text
+        else:
+            phone = ""
 
-        if phone:
+        try:
+            if isinstance(phone, int):
+                pass
+            elif phone.startswith("91") and len(phone) == 12:
+                phone = int(phone[2:])
+            elif len(phone) == 10:
+                phone = int(phone)
+            else:
+                raise ValueError
+        except:
+            await conv.send_message(
+                messages.wallet_set_failed.format(
+                    reason=f"Invalid phone number format. Give 10 digit number. {only_ind}"
+                ),
+                buttons=main_kbd,
+            )
+            conv.cancel()
+            raise events.StopPropagation
+
+        if not phone:
+            raise events.StopPropagation
+
+        existing_person = await st.engine.find_one(st.Person, st.Person.phone == phone)
+        if not existing_person:
             user.phone = phone
             user.wallet = wallet
             await st.engine.save(user)
@@ -129,6 +150,14 @@ async def wallet_button_click_handler(event: events.CallbackQuery.Event, user):
                 f"Your {wallet} number is set as {phone} 🎉",
                 buttons=main_kbd,
             )
+        else:
+            user.banned = True
+            await st.engine.save(user)
+            await client.send_message(
+                existing_person.uid,
+                "⚠️ Warning! \nDont use same wallet with another Telegram account.",
+            )
+            await conv.send_message(messages.ban_due_to_reusing_phn)
 
 
 @events.register(events.NewMessage(pattern=messages.my_referals_btn))
