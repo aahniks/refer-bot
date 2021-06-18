@@ -32,8 +32,11 @@ async def start_bot():
     logging.info(f"Logged in sucessfully as {conf.BOT_USERNAME}")
 
     motor_client = AsyncIOMotorClient(conf.MONGO_DB_CON_STR)
+    logging.info(f"Created motor client for {conf.MONGO_DB_CON_STR}")
     engine = AIOEngine(motor_client=motor_client, database=conf.MONGO_DB_DATABASE)
-    logging.info("Created AsyncIO Engine for MongoDB")
+    logging.info(
+        f"Created AsyncIO Engine for MongoDB for database {conf.MONGO_DB_DATABASE}"
+    )
     st.engine = engine
 
     conf.ADMINS = [await get_id(client, admin) for admin in conf.BOT_ADMINS.split(",")]
