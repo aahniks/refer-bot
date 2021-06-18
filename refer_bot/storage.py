@@ -15,4 +15,3 @@ class Person(Model):
     wallet: str = ""
     phone: Optional[int] = None
     banned: StrictBool = False
-    

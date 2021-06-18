@@ -80,9 +80,11 @@ def join_protect(org_func):
             raise events.StopPropagation
 
         if this_user.banned:
-            await event.respond(messages.user_banned_msg.format(admin=conf.CONTACT_ADMIN))
+            await event.respond(
+                messages.user_banned_msg.format(admin=conf.CONTACT_ADMIN)
+            )
             raise events.StopPropagation
-            
+
         referer_id = this_user.referer
         if not await check_joined(event.client, event.sender_id):
             if this_user.joined is True:
