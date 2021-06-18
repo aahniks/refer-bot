@@ -68,13 +68,23 @@ You do not have sufficient coins in your wallet.
 You need to have minimum {min_limit} coins to withdraw cash.
 """
 
+wallet_set_failed = """
+❗Failed to set wallet!
+
+Reason: {reason}
+
+Please try again.
+"""
+
 refresh_btn = "↺ Refresh"
 profile_btn = "🎨 Profile"
 my_referals_btn = "💡 My Referals"
 get_link_btn = "🔗 Get Referal Link"
 get_cash_btn = "💵 Get cash"
 
-user_kbd = [[profile_btn], [my_referals_btn, get_link_btn], [get_cash_btn]]
+user_kbd_matrix = [[profile_btn], [my_referals_btn, get_link_btn], [get_cash_btn]]
+
+wallet_options = ["paytm", "phonepe"]
 
 try:
     from m2 import *
