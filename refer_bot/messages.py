@@ -43,7 +43,7 @@ Please click /start
 """
 
 help_text = """
-Please contact @aahnikdaw to get this bot for your self!
+🙏 Please contact {admin} for support!
 """
 
 user_not_authorized = """
@@ -74,6 +74,18 @@ wallet_set_failed = """
 Reason: {reason}
 
 Please try again.
+"""
+
+ban_due_to_reusing_phn = """
+The phone number you used is already set as wallet by another person.
+
+❗ You are banned, as this is against our policy.
+"""
+
+user_banned_msg = """
+❌ You are banned for violating our policy.
+
+Contact {admin} for help.
 """
 
 refresh_btn = "↺ Refresh"
