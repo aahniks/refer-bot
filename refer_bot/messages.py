@@ -64,7 +64,7 @@ Forward this message to {admin}
 """
 
 not_sufficient_coins = """
-You do not have sufficient coins in your wallet.
+You do not have sufficient coins in your account.
 You need to have minimum {min_limit} coins to withdraw cash.
 """
 
