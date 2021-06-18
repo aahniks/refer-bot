@@ -23,7 +23,8 @@ logging.basicConfig(
 async def start_bot():
     from refer_bot import conf
     from refer_bot import storage as st
-    from refer_bot.utils import get_id, handler_functions
+    from refer_bot.loader import handler_functions
+    from refer_bot.utils import get_id
 
     client = TelegramClient("bot", conf.API_ID, conf.API_HASH)
     await client.start(bot_token=conf.BOT_TOKEN)
@@ -32,10 +33,10 @@ async def start_bot():
     logging.info(f"Logged in sucessfully as {conf.BOT_USERNAME}")
 
     motor_client = AsyncIOMotorClient(conf.MONGO_DB_CON_STR)
-    logging.info(f"Created motor client for {conf.MONGO_DB_CON_STR}")
+    logging.info(f"Created motor client for '{conf.MONGO_DB_CON_STR}'")
     engine = AIOEngine(motor_client=motor_client, database=conf.MONGO_DB_DATABASE)
     logging.info(
-        f"Created AsyncIO Engine for MongoDB for database {conf.MONGO_DB_DATABASE}"
+        f"Created AsyncIO Engine for MongoDB for '{conf.MONGO_DB_DATABASE}' database"
     )
     st.engine = engine
 
