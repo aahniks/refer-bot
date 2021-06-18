@@ -1,6 +1,6 @@
 import logging
 
-stats_text = """
+user_profile = """
 Your profile stats
 
 **ℹ️ ID**: `{uid}`
@@ -97,6 +97,11 @@ get_cash_btn = "💵 Get cash"
 user_kbd_matrix = [[profile_btn], [my_referals_btn, get_link_btn], [get_cash_btn]]
 
 wallet_options = ["paytm", "phonepe"]
+
+cut_coins_btn = "✂️ Cut Coins"
+reset_wallet_btn = "⚙️ Reset Wallet"
+ban_user_btn = "🚫 Ban User"
+unban_user_btn = "👍 Unban User"
 
 try:
     from m2 import *
