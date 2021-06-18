@@ -13,3 +13,4 @@ class Person(Model):
     referals: Optional[List[int]] = []
     coins: int = 0
     wallet: str = ""
+    phone: Optional[int] = None
