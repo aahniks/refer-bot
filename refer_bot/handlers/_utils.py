@@ -8,6 +8,7 @@ from telethon.errors import UserNotParticipantError
 from refer_bot import conf, messages
 from refer_bot import storage as st
 from refer_bot.types import EventLike
+from refer_bot.utils import get_username_str
 
 
 def admin_protect(org_func):
@@ -109,6 +110,11 @@ def join_protect(org_func):
                 )
                 referer.coins += 1
                 await st.engine.save(referer)
+                person = await get_username_str(event.client, this_user.uid)
+                await event.client.send_message(
+                    referer.uid,
+                    f"You earned a coin as {person} started the bot clicking your referal link.",
+                )
             this_user.joined = True
             await st.engine.save(this_user)
 
