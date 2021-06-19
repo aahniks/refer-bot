@@ -1,17 +1,17 @@
 import logging
 
 user_profile = """
-Your profile stats
+{heading}
 
-**ℹ️ ID**: `{uid}`
+**ℹ️ ID**: `{user.uid}`
 
-**✅ Joined All**: {joined}
+**✅ Joined All**: {user.joined}
 
-**🎉 Coins**: {coins}
+**🎉 Coins**: {user.coins}
 
-**💰 Wallet**: {wallet}
+**💰 Wallet**: {user.wallet_str}
 
-**🔀 Referals**: {ref_count}
+**🔀 Referals**: {user.ref_count}
 """
 
 started_with_own_link = """
