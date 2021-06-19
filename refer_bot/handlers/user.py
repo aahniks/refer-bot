@@ -175,7 +175,7 @@ async def get_link_handler(event: EventLike, user):
 @events.register(events.NewMessage(pattern=messages.get_cash_btn))
 @join_protect
 async def get_cash_handler(event: EventLike, user: st.Person):
-    min_limit = 100
+    min_limit = 10
     if user.coins < min_limit:
         msg = messages.not_sufficient_coins
     else:
