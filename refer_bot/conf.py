@@ -13,6 +13,7 @@ BOT_ADMINS = os.getenv("TG_BOT_ADMINS")  # comma seperated usernames of admins
 CONTACT_ADMIN = os.getenv("TG_BOT_CONTACT_ADMIN")
 MONGO_DB_CON_STR = os.getenv("MONGO_DB_CON_STR", "mongodb://localhost:27017/")
 MONGO_DB_DATABASE = os.getenv("MONGO_DB_DATABASE", "test")
+TG_CHANNELS = os.getenv("TG_CHANNELS")
 
 COMMANDS = {
     "start": "start the bot",
@@ -21,8 +22,7 @@ COMMANDS = {
 
 ADMINS = []  # user id of admins
 
-CHANNELS = ["@aahniks_code", "@aahnikd"]
-
+CHANNELS = TG_CHANNELS.split(",")
 BOT_USERNAME = ""
 
 
