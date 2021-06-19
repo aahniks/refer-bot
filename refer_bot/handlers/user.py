@@ -40,13 +40,8 @@ async def profile_handler(event: EventLike, user):
 
     await event.respond(
         messages.user_profile.format(
-            uid=user.uid,
-            joined=user.joined,
-            coins=user.coins,
-            ref_count=len(user.referals),
-            wallet=(user.wallet + "(" + str(user.phone) + ")")
-            if user.wallet
-            else "Not set",
+            heading="Your Profile",
+            user=user,
         ),
         buttons=wallet_btn,
     )
