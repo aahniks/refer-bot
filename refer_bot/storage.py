@@ -15,3 +15,11 @@ class Person(Model):
     wallet: str = ""
     phone: Optional[int] = None
     banned: StrictBool = False
+
+    @property
+    def ref_count(self):
+        return len(self.referals)
+
+    @property
+    def wallet_str(self):
+        return (self.wallet + "(" + str(self.phone) + ")") if self.wallet else "Not set"
