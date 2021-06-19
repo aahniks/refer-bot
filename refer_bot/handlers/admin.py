@@ -36,7 +36,9 @@ async def configure_btn_handler(event: EventLike):
 async def edit_user_btn_handler(event: EventLike):
     client: TelegramClient = event.client
     async with client.conversation(event.sender_id) as conv:
-        ask_id = await conv.send_message("Enter the ID of the user",buttons=Button.clear())
+        ask_id = await conv.send_message(
+            "Enter the ID of the user", buttons=Button.clear()
+        )
         id_reply = await conv.get_response(ask_id)
         try:
             int_id = int(id_reply.text)
@@ -44,12 +46,16 @@ async def edit_user_btn_handler(event: EventLike):
             if not user:
                 await conv.send_message("No user found with that ID")
         except ValueError:
-            await conv.send_message("Invalid ID")
+            await conv.send_message("Invalid ID", buttons=admin_btns)
+            conv.cancel()
+            raise events.StopPropagation
         except Exception as err:
             await conv.send_message(
-                f"Unknown Error occured. Please report to @aahnikdaw\n {str(err)}"
+                f"Unknown Error occured. Please report to @aahnikdaw\n {str(err)}",
+                buttons=admin_btns,
             )
-        print(user.banned)
+            conv.cancel()
+            raise events.StopPropagation
         if user.banned:
             ban_unban = messages.unban_user_btn
         else:
@@ -86,6 +92,7 @@ async def edit_user_btn_handler(event: EventLike):
 
         except Exception as err:
             await conv.send_message(f"Error occured {err}", buttons=admin_btns)
+            conv.cancel()
             raise events.StopPropagation
         else:
             await st.engine.save(user)
