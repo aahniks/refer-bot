@@ -36,7 +36,7 @@ async def configure_btn_handler(event: EventLike):
 async def edit_user_btn_handler(event: EventLike):
     client: TelegramClient = event.client
     async with client.conversation(event.sender_id) as conv:
-        ask_id = await conv.send_message("Enter the ID of the user")
+        ask_id = await conv.send_message("Enter the ID of the user",buttons=Button.clear())
         id_reply = await conv.get_response(ask_id)
         try:
             int_id = int(id_reply.text)
