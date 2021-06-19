@@ -13,15 +13,16 @@ edit_user_btn = "✏️ Edit User"
 stats_btn = "📊 View Statistics"
 contact_dev_btn = "🧑‍💻 Contact Developer"
 
+admin_btns = build_keyboard(
+    [[configure_btn, edit_user_btn], [stats_btn], [contact_dev_btn]]
+)
+
 
 @events.register(events.NewMessage(pattern="/admin"))
 @admin_protect
 async def admin_cmd_handler(event: EventLike):
-    buttons = build_keyboard(
-        [[configure_btn, edit_user_btn], [stats_btn], [contact_dev_btn]]
-    )
 
-    await event.respond("Click any keyboard button to continue", buttons=buttons)
+    await event.respond("Click any keyboard button to continue", buttons=admin_btns)
 
 
 @events.register(events.NewMessage(pattern=configure_btn))
@@ -54,14 +55,13 @@ async def edit_user_btn_handler(event: EventLike):
         else:
             ban_unban = messages.ban_user_btn
 
-        print(ban_unban)
         matrix = [
             [messages.cut_coins_btn, messages.reset_wallet_btn],
             [ban_unban],
         ]
 
         ask_choice = await conv.send_message(
-            str(user),
+            messages.user_profile.format(heading="User Profile", user=user),
             buttons=build_keyboard(matrix),
         )
 
@@ -85,19 +85,21 @@ async def edit_user_btn_handler(event: EventLike):
                 raise ValueError("Invalid Choice")
 
         except Exception as err:
-            await conv.send_message(f"Error occured {err}", buttons=Button.clear())
+            await conv.send_message(f"Error occured {err}", buttons=admin_btns)
             raise events.StopPropagation
         else:
             await st.engine.save(user)
             await conv.send_message(
-                f"User updated \n{str(user)}", buttons=Button.clear()
+                messages.user_profile.format(heading="User Updated!", user=user),
+                buttons=admin_btns,
             )
 
 
 @events.register(events.NewMessage(pattern=stats_btn))
 @admin_protect
 async def stats_btn_handler(event: EventLike):
-    await event.respond("This feature is coming in the next release!")
+    total = await st.engine.count(st.Person)
+    await event.respond(f"Total Number of Bot Users {total}")
 
 
 @events.register(events.NewMessage(pattern=contact_dev_btn))
