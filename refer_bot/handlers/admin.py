@@ -48,6 +48,7 @@ async def edit_user_btn_handler(event: EventLike):
             user = await st.engine.find_one(st.Person, st.Person.uid == int_id)
             if not user:
                 await conv.send_message("No user found with that ID")
+                raise ValueError
         except ValueError:
             await conv.send_message("Invalid ID", buttons=admin_btns)
             conv.cancel()
