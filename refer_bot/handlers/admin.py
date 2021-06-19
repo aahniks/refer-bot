@@ -3,7 +3,7 @@ import os
 
 from telethon import Button, TelegramClient, events
 
-from refer_bot import messages
+from refer_bot import __version__, messages
 from refer_bot import storage as st
 from refer_bot.handlers._utils import admin_protect, build_keyboard, join_protect
 from refer_bot.types import EventLike
@@ -22,7 +22,10 @@ admin_btns = build_keyboard(
 @admin_protect
 async def admin_cmd_handler(event: EventLike):
 
-    await event.respond("Click any keyboard button to continue", buttons=admin_btns)
+    await event.respond(
+        f"Running **refer-bot** version {__version__}.\nClick any keyboard button to continue",
+        buttons=admin_btns,
+    )
 
 
 @events.register(events.NewMessage(pattern=configure_btn))
