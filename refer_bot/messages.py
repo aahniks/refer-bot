@@ -56,6 +56,13 @@ join_channels_text = """
 {channels}
 """
 
+my_referals_text = """
+No of referals **{ref_count}**
+That means {ref_count} people clicked on you link and started the bot.
+
+**Note**: You will only earn coin after your friend **joins all channels** after starting the bot.
+"""
+
 get_cash_text = """
 Contact admin to withdraw your coins!
 Your ID is {uid}

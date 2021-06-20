@@ -158,11 +158,7 @@ async def wallet_button_click_handler(
 @events.register(events.NewMessage(pattern=messages.my_referals_btn))
 @join_protect
 async def my_referals_handler(event: EventLike, user: st.Person):
-    ref_count = len(user.referals)
-    await event.respond(
-        f"No of Sucessful referals **{ref_count}**\n\
-        \nThat means {ref_count} people started the bot from the link you shared."
-    )
+    await event.respond(messages.my_referals_text.format(ref_count=user.ref_count))
 
 
 @events.register(events.NewMessage(pattern=messages.get_link_btn))
