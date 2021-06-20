@@ -112,7 +112,7 @@ async def wallet_button_click_handler(
             reply_phn = await conv.get_response(ask_phn_manual)
             phone: str = reply_phn.raw_text
         else:
-            phone = ""
+            phone = phn_reply.raw_text
 
         try:
             if isinstance(phone, int):
