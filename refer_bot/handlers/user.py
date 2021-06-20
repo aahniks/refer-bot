@@ -71,7 +71,7 @@ async def wallet_button_click_handler(
             buttons=build_keyboard([messages.wallet_options]),
         )
         wallet_reply = await conv.get_response(message)
-        wallet = wallet_reply.text
+        wallet = wallet_reply.raw_text
         if not (wallet in messages.wallet_options):
             await conv.send_message(
                 messages.wallet_set_failed.format(reason="Invalid Wallet type"),
@@ -102,7 +102,7 @@ async def wallet_button_click_handler(
                     buttons=main_kbd,
                 )
             phone = int(phone[2:])
-        elif phn_reply.text == diff_no:
+        elif phn_reply.raw_text == diff_no:
 
             ask_phn_manual = await conv.send_message(
                 f"Type and send your {wallet} number.\n\
@@ -110,7 +110,7 @@ async def wallet_button_click_handler(
                 buttons=Button.clear(),
             )
             reply_phn = await conv.get_response(ask_phn_manual)
-            phone: str = reply_phn.text
+            phone: str = reply_phn.raw_text
         else:
             phone = ""
 

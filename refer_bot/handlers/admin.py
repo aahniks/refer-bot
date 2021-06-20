@@ -44,7 +44,7 @@ async def edit_user_btn_handler(event: EventLike):
         )
         id_reply = await conv.get_response(ask_id)
         try:
-            int_id = int(id_reply.text)
+            int_id = int(id_reply.raw_text)
             user = await st.engine.find_one(st.Person, st.Person.uid == int_id)
             if not user:
                 await conv.send_message("No user found with that ID")
