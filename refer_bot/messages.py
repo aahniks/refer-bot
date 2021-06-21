@@ -57,10 +57,14 @@ join_channels_text = """
 """
 
 my_referals_text = """
-No of referals **{ref_count}**
-That means {ref_count} people clicked on you link and started the bot.
+No of referals **{user.ref_count}**
+That means {user.ref_count} people clicked on you link and started the bot.
 
 **Note**: You will only earn coin after your friend **joins all channels** after starting the bot.
+"""
+
+my_coins_text = """
+You have **{user.coins}** coins in your balance.
 """
 
 get_cash_text = """
@@ -98,10 +102,15 @@ Contact {admin} for help.
 refresh_btn = "↺ Refresh"
 profile_btn = "🎨 Profile"
 my_referals_btn = "💡 My Referals"
+my_coins_btn = "🤑 My Coins"
 get_link_btn = "🔗 Get Referal Link"
 get_cash_btn = "💵 Get cash"
 
-user_kbd_matrix = [[profile_btn], [my_referals_btn, get_link_btn], [get_cash_btn]]
+user_kbd_matrix = [
+    [profile_btn, my_coins_btn],
+    [my_referals_btn, get_link_btn],
+    [get_cash_btn],
+]
 
 wallet_options = ["paytm", "phonepe"]
 

@@ -155,10 +155,16 @@ async def wallet_button_click_handler(
             await conv.send_message(messages.ban_due_to_reusing_phn)
 
 
+@events.register(events.NewMessage(pattern=messages.my_coins_btn))
+@join_protect
+async def my_coins_handler(event: EventLike, user: st.Person):
+    await event.respond(messages.my_coins_text.format(user=user))
+
+
 @events.register(events.NewMessage(pattern=messages.my_referals_btn))
 @join_protect
 async def my_referals_handler(event: EventLike, user: st.Person):
-    await event.respond(messages.my_referals_text.format(ref_count=user.ref_count))
+    await event.respond(messages.my_referals_text.format(user=user))
 
 
 @events.register(events.NewMessage(pattern=messages.get_link_btn))
