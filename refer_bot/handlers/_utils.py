@@ -113,7 +113,7 @@ def join_protect(org_func):
                 person = await get_username_str(event.client, this_user.uid)
                 await event.client.send_message(
                     referer.uid,
-                    f"You earned a coin as {person} started the bot clicking your referal link.",
+                    f"You earned a coin as {person} started the bot and joined all channels after clicking your referal link.",
                 )
             this_user.joined = True
             await st.engine.save(this_user)
