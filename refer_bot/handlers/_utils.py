@@ -47,6 +47,9 @@ async def check_joined(client: TelegramClient, user: int):
             await client(functions.channels.GetParticipantRequest(channel, user))
         except UserNotParticipantError:
             return False
+        except Exception as err:
+            logging.exception(f"Could not check joined for channel {channel}")
+            continue
     return True
 
 
