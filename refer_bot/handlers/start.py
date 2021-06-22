@@ -57,16 +57,17 @@ async def start_handler(event: EventLike):
             phone: str = phn_reply.contact.phone_number
             contact_id: int = phn_reply.contact.user_id
 
-            if not (phone.startswith("91") or phone.startswith("+91")):
-                await st.engine.save(this_user)
-                await conv.send_message(
-                    "❗ You are not an INDIAN User.Sorry, this bot is only for INDIANs",
-                    buttons=Button.clear(),
-                )
-                raise events.StopPropagation
-
             if not contact_id == event.sender_id:
                 await conv.send_message(messages.veri_failed, buttons=Button.clear())
+                raise events.StopPropagation
+
+            if not (phone.startswith("91") or phone.startswith("+91")):
+                this_user.banned = True
+                await st.engine.save(this_user)
+                await conv.send_message(
+                    "❗ You are not an INDIAN User. Sorry, this bot is only for INDIANs",
+                    buttons=Button.clear(),
+                )
                 raise events.StopPropagation
 
             this_user.verified = True
