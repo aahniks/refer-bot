@@ -89,6 +89,12 @@ def join_protect(org_func):
             )
             raise events.StopPropagation
 
+        if not this_user.verified:
+            await event.respond(
+                "⚠️ Your account is not yet verified! \nClick /start to verify."
+            )
+            raise events.StopPropagation
+
         referer_id = this_user.referer
         if not await check_joined(event.client, event.sender_id):
             if this_user.joined is True:

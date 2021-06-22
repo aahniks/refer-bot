@@ -31,7 +31,7 @@ Share this link 🔗 with your friends
 
 `{referal_link}`
 
-When your friend clicks on the link you shared and joins all the channels, you will earn one coin."
+When your friend clicks on the link you shared and joins all the channels, you will earn one coin.
 """
 
 user_not_found = """
@@ -97,6 +97,10 @@ user_banned_msg = """
 ❌ You are banned for violating our policy.
 
 Contact {admin} for help.
+"""
+
+veri_failed = """
+⚠️ Verification failed as you **did not send your own number**. Please press /start to try again!
 """
 
 refresh_btn = "↺ Refresh"
