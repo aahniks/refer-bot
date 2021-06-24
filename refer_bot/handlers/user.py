@@ -96,11 +96,13 @@ async def wallet_button_click_handler(
 
         if phn_reply.contact:
             phone: str = phn_reply.contact.phone_number
-            if not phone.startswith("91"):
+            if not (phone.startswith("91") or phone.startswith("+91")):
                 await conv.send_message(
                     messages.wallet_set_failed.format(reason=only_ind),
                     buttons=main_kbd,
                 )
+                raise events.StopPropagation
+            phone = phone.lstrip("+")
             phone = int(phone[2:])
         elif phn_reply.raw_text == diff_no:
 
