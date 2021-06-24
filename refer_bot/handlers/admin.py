@@ -1,11 +1,8 @@
-import logging
-import os
-
 from telethon import Button, TelegramClient, events
 
 from refer_bot import __version__, messages
 from refer_bot import storage as st
-from refer_bot.handlers._utils import admin_protect, build_keyboard, join_protect
+from refer_bot.handlers._utils import admin_protect, build_keyboard
 from refer_bot.types import EventLike
 
 configure_btn = "🛠️ Configure"

@@ -2,13 +2,11 @@ import logging
 
 from telethon import Button, TelegramClient, events
 
-from refer_bot import messages
+from refer_bot import conf, messages
 from refer_bot import storage as st
-from refer_bot.handlers._utils import build_keyboard, get_args
+from refer_bot.handlers._utils import get_args
 from refer_bot.handlers.const import main_kbd
 from refer_bot.types import EventLike
-from refer_bot.utils import get_id
-from refer_bot import conf
 
 
 @events.register(events.NewMessage(pattern="/start"))

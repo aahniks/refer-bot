@@ -58,8 +58,6 @@ def join_protect(org_func):
     async def wrapper_func(event: EventLike):
         """Wrap the original function."""
 
-        # logging.info(f"Recieved update {event}")
-
         event_type = type(event)
 
         if not event.is_private:
@@ -82,8 +80,6 @@ def join_protect(org_func):
         this_user: st.Person = await st.engine.find_one(
             st.Person, st.Person.uid == event.sender_id
         )
-
-        logging.info(this_user)
 
         if not this_user:
             await event.respond(messages.user_not_found)
