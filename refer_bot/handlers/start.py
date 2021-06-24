@@ -8,11 +8,19 @@ from refer_bot.handlers._utils import build_keyboard, get_args
 from refer_bot.handlers.const import main_kbd
 from refer_bot.types import EventLike
 from refer_bot.utils import get_id
+from refer_bot import conf
 
 
 @events.register(events.NewMessage(pattern="/start"))
 async def start_handler(event: EventLike):
+    if not event.is_private:
+        await event.respond(
+            messages.switch_private.format(username=f"@{conf.BOT_USERNAME}")
+        )
+        raise events.StopPropagation
+
     logging.info(f"Recieved /start command from {event.sender_id}")
+
     args = get_args(event.text)
     if args:
         logging.info(f"this user has been refered by {args}")

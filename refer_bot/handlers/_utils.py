@@ -62,6 +62,12 @@ def join_protect(org_func):
 
         event_type = type(event)
 
+        if not event.is_private:
+            await event.respond(
+                messages.switch_private.format(username=f"@{conf.BOT_USERNAME}")
+            )
+            raise events.StopPropagation
+
         if event_type == events.NewMessage.Event:
             logging.info(f"New message [dim]{event.text}[/dim] from {event.sender_id}")
         elif event_type == events.CallbackQuery.Event:
