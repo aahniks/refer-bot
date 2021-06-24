@@ -103,6 +103,12 @@ veri_failed = """
 ⚠️ Verification failed as you **did not send your own number**. Please press /start to try again!
 """
 
+switch_private = """
+⚠️ You must use this bot {username} in a direct/private chat.
+
+Using this bot within groups or channels is not allowed!
+"""
+
 refresh_btn = "↺ Refresh"
 profile_btn = "🎨 Profile"
 my_referals_btn = "💡 My Referals"
