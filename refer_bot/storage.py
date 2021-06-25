@@ -24,3 +24,11 @@ class Person(Model):
     @property
     def wallet_str(self):
         return (self.wallet + "(" + str(self.phone) + ")") if self.wallet else "Not set"
+
+
+class AdminConfig(Model):
+    force_channels: List[str]
+    min_limit: int
+    coin_val: int
+    brodcast_channel: str
+    withdrawals_channel: str
