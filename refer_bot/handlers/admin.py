@@ -2,17 +2,10 @@ from telethon import Button, TelegramClient, events
 
 from refer_bot import __version__, messages
 from refer_bot import storage as st
-from refer_bot.handlers._utils import admin_protect, build_keyboard
+from refer_bot.handlers._utils import admin_protect, build_keyboard, get_args
 from refer_bot.types import EventLike
 
-configure_btn = "🛠️ Configure"
-edit_user_btn = "✏️ Edit User"
-stats_btn = "📊 View Statistics"
-contact_dev_btn = "🧑‍💻 Contact Developer"
-
-admin_btns = build_keyboard(
-    [[configure_btn, edit_user_btn], [stats_btn], [contact_dev_btn]]
-)
+admin_btns = build_keyboard(messages.admin_kbd_matrix)
 
 
 @events.register(events.NewMessage(pattern="/admin"))
@@ -25,13 +18,14 @@ async def admin_cmd_handler(event: EventLike):
     )
 
 
-@events.register(events.NewMessage(pattern=configure_btn))
+@events.register(events.NewMessage(pattern=messages.configure_btn))
 @admin_protect
 async def configure_btn_handler(event: EventLike):
-    await event.respond("This feature is coming in the next release!")
+    button_data = {}
+    await event.respond("Choose the option to configure")
 
 
-@events.register(events.NewMessage(pattern=edit_user_btn))
+@events.register(events.NewMessage(pattern=messages.edit_user_btn))
 @admin_protect
 async def edit_user_btn_handler(event: EventLike):
     client: TelegramClient = event.client
@@ -62,14 +56,14 @@ async def edit_user_btn_handler(event: EventLike):
         else:
             ban_unban = messages.ban_user_btn
 
-        matrix = [
+        edit_user_kbd_matrix = [
             [messages.cut_coins_btn, messages.reset_wallet_btn],
             [ban_unban],
         ]
 
         ask_choice = await conv.send_message(
             messages.user_profile.format(heading="User Profile", user=user),
-            buttons=build_keyboard(matrix),
+            buttons=build_keyboard(edit_user_kbd_matrix),
         )
 
         user_choice_reply = await conv.get_response(ask_choice)
@@ -103,14 +97,14 @@ async def edit_user_btn_handler(event: EventLike):
             )
 
 
-@events.register(events.NewMessage(pattern=stats_btn))
+@events.register(events.NewMessage(pattern=messages.stats_btn))
 @admin_protect
 async def stats_btn_handler(event: EventLike):
     total = await st.engine.count(st.Person)
     await event.respond(f"Total Number of Bot Users {total}")
 
 
-@events.register(events.NewMessage(pattern=contact_dev_btn))
+@events.register(events.NewMessage(pattern=messages.contact_dev_btn))
 @admin_protect
 async def contact_dev_btn_handler(event: EventLike):
     await event.respond("Talk to @aahnikdaw for any issue.")
