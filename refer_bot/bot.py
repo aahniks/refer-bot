@@ -35,10 +35,17 @@ async def start_bot():
     motor_client = AsyncIOMotorClient(conf.MONGO_DB_CON_STR)
     logging.info(f"Created motor client for '{conf.MONGO_DB_CON_STR}'")
     engine = AIOEngine(motor_client=motor_client, database=conf.MONGO_DB_DATABASE)
+    st.engine = engine
     logging.info(
         f"Created AsyncIO Engine for MongoDB for '{conf.MONGO_DB_DATABASE}' database"
     )
-    st.engine = engine
+
+    await asyncio.sleep(5)
+
+    st.admin_cfg = await st.engine.find_one(st.AdminConfig, st.AdminConfig.one_id == 1)
+    if not st.admin_cfg:
+        st.admin_cfg = await st.engine.save(st.AdminConfig(one_id=1))
+    logging.info("Loaded admin config")
 
     conf.ADMINS = [await get_id(client, admin) for admin in conf.BOT_ADMINS.split(",")]
     logging.info(f"Usernames of bot admins {conf.BOT_ADMINS}")

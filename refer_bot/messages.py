@@ -14,6 +14,16 @@ user_profile = """
 **🔀 Referals**: {user.ref_count}
 """
 
+admin_config = """
+List of **Force Channel** Links :
+
+{cfg.force_channels_repr}
+
+**Minimum Limit** for withdrawals: `{cfg.min_lim}`
+
+**Value** of one **coin**: `{cfg.coin_val}`
+"""
+
 started_with_own_link = """
 ⚠️ You cant use your own link! Please share this with your friends.
 """
@@ -124,10 +134,27 @@ user_kbd_matrix = [
 
 wallet_options = ["paytm", "phonepe"]
 
+configure_btn = "🛠️ Configure"
+edit_user_btn = "✏️ Edit User"
+stats_btn = "📊 View Statistics"
+contact_dev_btn = "🧑‍💻 Contact Developer"
+
+admin_kbd_matrix = [[configure_btn, edit_user_btn], [stats_btn], [contact_dev_btn]]
+
 cut_coins_btn = "✂️ Cut Coins"
 reset_wallet_btn = "⚙️ Reset Wallet"
 ban_user_btn = "🚫 Ban User"
 unban_user_btn = "👍 Unban User"
+
+edit_channels_btn = "Force Channels"
+edit_min_lim_btn = "Minimum Limit"
+edit_coin_val = "Coin Value"
+
+admin_config_kbd_matrix = [
+    [edit_channels_btn],
+    [edit_min_lim_btn, edit_coin_val],
+]
+
 
 try:
     from m2 import *

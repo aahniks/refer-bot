@@ -41,13 +41,22 @@ def get_args(text: str) -> str:
     return args
 
 
-async def check_joined(client: TelegramClient, user: int):
-    for channel in conf.CHANNELS:
+async def check_joined(
+    client: TelegramClient,
+    user: int,
+    channels=None,
+    raise_err: bool = False,
+):
+    if not channels:
+        channels = st.admin_cfg.force_channels
+    for channel in channels:
         try:
             await client(functions.channels.GetParticipantRequest(channel, user))
         except UserNotParticipantError:
             return False
         except Exception as err:
+            if raise_err:
+                raise err
             logging.exception(f"Could not check joined for channel {channel}")
             continue
     return True
@@ -136,8 +145,8 @@ def join_protect(org_func):
 
 async def show_channels(event: EventLike):
     channels = ""
-    for c in conf.CHANNELS:
-        channels += f"➟ {c}\n"
+    for i, c in enumerate(st.admin_cfg.force_channels, start=1):
+        channels += f"➟ [Channel {i}]({c})\n"
     await event.respond(
         messages.join_channels_text.format(channels=channels),
         buttons=[
