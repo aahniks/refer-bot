@@ -136,8 +136,8 @@ def join_protect(org_func):
 
 async def show_channels(event: EventLike):
     channels = ""
-    for c in conf.CHANNELS:
-        channels += f"➟ {c}\n"
+    for i, c in enumerate(st.admin_cfg.force_channels, start=1):
+        channels += f"➟ [Channel {i}]({c})\n"
     await event.respond(
         messages.join_channels_text.format(channels=channels),
         buttons=[
