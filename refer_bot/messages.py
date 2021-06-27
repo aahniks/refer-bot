@@ -14,6 +14,16 @@ user_profile = """
 **🔀 Referals**: {user.ref_count}
 """
 
+admin_config = """
+List of **Force Channel** Links :
+
+{cfg.force_channels_repr}
+
+**Minimum Limit** for withdrawals: `{cfg.min_lim}`
+
+**Value** of one **coin**: `{cfg.coin_val}`
+"""
+
 started_with_own_link = """
 ⚠️ You cant use your own link! Please share this with your friends.
 """
@@ -137,15 +147,12 @@ ban_user_btn = "🚫 Ban User"
 unban_user_btn = "👍 Unban User"
 
 edit_channels_btn = "Force Channels"
-edit_min_lim_btn = "Min Limit"
+edit_min_lim_btn = "Minimum Limit"
 edit_coin_val = "Coin Value"
-set_brodcast_channel = "Brodcast Channel"
-set_withdrawal_req_channel = "Withdrawals Channel"
 
-admin_config_kdb_matrix = [
-    edit_channels_btn,
+admin_config_kbd_matrix = [
+    [edit_channels_btn],
     [edit_min_lim_btn, edit_coin_val],
-    [set_brodcast_channel, set_withdrawal_req_channel],
 ]
 
 
