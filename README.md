@@ -1,5 +1,21 @@
 # refer-bot
 
+Notice:: 
+
+I developed this project as per requirements of a client. It was initially a closed souce project, and now I made it open source with permission from my client for whom I developed this.
+
+This bot counts how many people joined(started using the bot) using a persons referal link. My client used this for marketing and advertisement of online services. The administrator of the bot(the deployer) has access to the usernames of all users and their referal count.
+
+This bot was in production in past, and had reached a peak of more than 5k users. A free mongo db atlas account was enough for that. I used to run this bot on a Digital Ocean Ubuntu Droplet.
+
+This project can serve as a guide for junior developers and help them build such a telegram bot that has multiple components:
+- business logic
+- connection with database
+- bot ui aka bot commands, buttons and conversations in telegram bot
+
+I am archiving this project because I no longer intend to work on it. If you are looking to have such a bot or similar solution customly implemented for you, you may contact me to find if I am interested. daw at aahnik dot dev.
+
+
 ## Environment Variables
 
 "TG_API_ID"
